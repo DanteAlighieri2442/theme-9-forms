@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Приклади JavaScript</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Приклади JavaScript</h1>
+    <div class="forms">
+      <form id="greet">
+        <h2>Привітання</h2>
+        <input name="name" placeholder="Ваше ім’я" required>
+        <button>Привітатися</button>
+        <output></output>
+      </form>
+
+      <form id="sum">
+        <h2>Сума чисел</h2>
+        <input name="a" type="number" placeholder="Перше число" step="any" required>
+        <input name="b" type="number" placeholder="Друге число" step="any" required>
+        <button>Додати</button>
+        <output></output>
+      </form>
+
+      <form id="temperature">
+        <h2>Цельсій у Фаренгейт</h2>
+        <input name="c" type="number" placeholder="°C" step="any" required>
+        <button>Перевести</button>
+        <output></output>
+      </form>
+
+      <form id="area">
+        <h2>Площа прямокутника</h2>
+        <input name="width" type="number" placeholder="Ширина" min="0" step="any" required>
+        <input name="height" type="number" placeholder="Висота" min="0" step="any" required>
+        <button>Обчислити</button>
+        <output></output>
+      </form>
+
+      <form id="count">
+        <h2>Кількість символів</h2>
+        <input name="text" placeholder="Введіть текст" required>
+        <button>Порахувати</button>
+        <output></output>
+      </form>
+
+      <form id="words">
+        <h2>Кількість слів</h2>
+        <input name="text" placeholder="Введіть текст" required>
+        <button>Порахувати</button>
+        <output></output>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll("form").forEach(form => {
+      form.noValidate = true;
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const output = form.querySelector("output");
+
+        output.textContent = "";
+        if ([...form.querySelectorAll("input")].some(input => !input.validity.valid)) return;
+
+        const data = new FormData(form);
+        let result;
+
+        if (form.id === "greet") result = `Привіт, ${data.get("name")}!`;
+        if (form.id === "sum") result = `Результат: ${Number(data.get("a")) + Number(data.get("b"))}`;
+        if (form.id === "temperature") result = `${Number(data.get("c")) * 9 / 5 + 32} °F`;
+        if (form.id === "area") result = `Площа: ${Number(data.get("width")) * Number(data.get("height"))}`;
+        if (form.id === "count") result = `Символів: ${data.get("text").length}`;
+        if (form.id === "words") result = `Слів: ${data.get("text").trim().split(/\s+/).length}`;
+
+        output.textContent = result;
+      });
+    });
+  </script>
+</body>
+</html>
